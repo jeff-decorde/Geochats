@@ -1,0 +1,4 @@
+.entry:hover {
+  background-image: linear-gradient(to bottom right, #8f29ba, #5c66c9);
+  color: white;
+}
