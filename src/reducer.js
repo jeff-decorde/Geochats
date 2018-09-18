@@ -11,7 +11,7 @@ const geochatsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        chats: action.payload.chats
+        chats: action.payload.chats.slice(0, 10)
       };
     case EVENTS.GET_CHATS_FAILURE:
       return {

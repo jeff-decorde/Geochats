@@ -13,7 +13,7 @@ const Table = ({ headers, entries, renderEntry }) => (
       </tr>
     </thead>
     <tbody>
-      {entries.map((entry) => renderEntry(entry))}
+      {entries.map((entry, index) => renderEntry(entry, index))}
     </tbody>
   </table>
 )

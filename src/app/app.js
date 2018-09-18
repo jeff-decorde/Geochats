@@ -9,6 +9,7 @@ import './app.css';
 
 class App extends React.Component {
   state = {
+    selectedChat: null,
     isListExpanded: false
   };
 
@@ -16,7 +17,7 @@ class App extends React.Component {
     this.props.getChats();
   }
 
-  renderEntry = (entry) => {
+  renderEntry = (entry, index) => {
     const {
       name,
       thumbnailUrl,
@@ -25,7 +26,10 @@ class App extends React.Component {
       coord = [{}],
     } = entry;
     return (
-      <tr className='entry'>
+      <tr
+        className={classNames('entry', this.state.selectedChat === index && 'selected')}
+        onClick={() => this.setState({ selectedChat: index })}
+      >
         <td>
           <img
             className='entry-thumbnail'
@@ -44,16 +48,40 @@ class App extends React.Component {
     );
   }
 
+  mapChatsToMarkers = () => {
+    const { chats } = this.props;
+    return chats.map((chat, index) => ({
+      lat: chat.coord[0].latitude,
+      lng: chat.coord[0].longitude,
+      icon: chat.thumbnailUrl,
+      data: chat,
+      isOpen: index === this.state.selectedChat
+    }));
+  }
+
   render() {
     const {
       chats,
       isLoading,
       error
     } = this.props;
-    const { isListExpanded } = this.state;
+    const {
+      isListExpanded,
+      selectedChat
+    } = this.state;
+
     const categories = isListExpanded
       ? ['Radius', 'Maximum Radius', 'Coordinates']
       : [];
+
+    const selectedMarker = chats[selectedChat];
+    const mapCenter = selectedChat
+      ? {
+        lat: selectedMarker.coord[0].latitude,
+        lng: selectedMarker.coord[0].longitude
+      }
+      : null;
+
     return (
       <div className="App">
         <Menu />
@@ -75,10 +103,9 @@ class App extends React.Component {
             </div>,
             <div className='chats-map'>
               <Map
-                markers={this.props.chats.map((chat) => ({
-                  lat: chat.coord[0].latitude,
-                  lng: chat.coord[0].longitude
-                }))}
+                onClickMarker={(index) => this.setState({ selectedChat: index })}
+                center={mapCenter}
+                markers={this.mapChatsToMarkers()}
               />
             </div>
           ]
