@@ -141,9 +141,12 @@ class App extends React.Component {
   render() {
     const {
       chats,
+      chatsData,
       isLoading,
+      currentIndex,
       error,
-      isMobile
+      isMobile,
+      loadMoreChats
     } = this.props;
     const {
       isListExpanded,
@@ -171,7 +174,7 @@ class App extends React.Component {
             <div className={classNames('chats-table', isListExpanded && 'expanded')}>
               <Table
                 headers={['Name', ...categories]}
-                entries={this.props.chats}
+                entries={chats}
                 renderMobileEntry={this.renderMobileEntry}
                 renderEntry={isMobile ? this.renderMobileEntry : this.renderEntry}
               />

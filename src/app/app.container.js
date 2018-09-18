@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getChats } from '../thunks.js';
+import { loadMoreChats } from '../actions.js';
 import App from './app.js';
 
 const mapStateToProps = (state) => ({
@@ -8,7 +9,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getChats: () => dispatch(getChats())
+  getChats: () => dispatch(getChats()),
+  loadMoreChats: () => dispatch(loadMoreChats()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
