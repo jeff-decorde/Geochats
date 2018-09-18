@@ -1,13 +1,14 @@
 // @flow
 
+import { connect } from 'react-redux';
 import './table.css';
 import React from 'react';
 
-const Table = ({ headers, entries, renderEntry }) => (
+const Table = ({ headers, entries, renderEntry, isMobile }) => (
   <table className="table is-fullwidth is-bordered">
     <thead>
       <tr>
-        {headers.map((header) =>
+        {!isMobile && headers.map((header) =>
           <th>{header}</th>
         )}
       </tr>
@@ -18,4 +19,8 @@ const Table = ({ headers, entries, renderEntry }) => (
   </table>
 )
 
-export default Table;
+const mapDispatchToProps = (state) => ({
+  isMobile: state.browser.is.mobile
+})
+
+export default connect(mapDispatchToProps, {})(Table);

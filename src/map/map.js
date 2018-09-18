@@ -4,6 +4,7 @@ import React from 'react'
 import {
   GoogleMap,
   Marker,
+  Circle,
   withScriptjs,
   withGoogleMap,
   InfoWindow
@@ -13,12 +14,10 @@ const LocationInfoWindow = (props) => {
   const {
     data: {
       name,
-      thumbnailUrl,
       radius,
       maxRadius,
       coord
-    },
-    isOpen
+    }
   } = props.marker;
   return (
     <InfoWindow>
@@ -49,7 +48,7 @@ const DefaultMap = withScriptjs(withGoogleMap((props) => (
     center={props.center || props.markers[0]}
     defaultZoom={12}
   >
-    {props.markers.map((marker, index) =>
+    {props.markers.map((marker, index) => [
       <Marker
         icon={{
           url: marker.icon,
@@ -62,8 +61,17 @@ const DefaultMap = withScriptjs(withGoogleMap((props) => (
         }}
       >
         {marker.isOpen && <LocationInfoWindow marker={marker} />}
-      </Marker>
-    )}
+      </Marker>,
+      marker.isOpen && (
+        <Circle
+          defaultCenter={{
+            lat: marker.lat,
+            lng: marker.lng
+          }}
+          radius={marker.data.radius}
+        />
+      )
+    ])}
   </GoogleMap>
 )));
 
