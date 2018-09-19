@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[object Object] 1`] = `
+<div
+  className="spinner"
+>
+  <i
+    className="fa fa-circle-o-notch fa-spin"
+  />
+</div>
+`;

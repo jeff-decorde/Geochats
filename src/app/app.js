@@ -27,9 +27,8 @@ class App extends React.Component {
   }
 
   selectChat = (index) => {
-    const sameIndexOnMobile = this.props.isMobile && index === this.state.selectedChat;
     this.setState({
-      selectedChat: sameIndexOnMobile ? null : index
+      selectedChat: index
     });
   }
 
@@ -53,7 +52,10 @@ class App extends React.Component {
       coord = [{}],
     } = entry;
     return (
-      <tr className='entry'>
+      <tr
+        className='entry'
+        key={`entry-${index}`}
+      >
         <td
           className='entry-cell'
           onClick={(e) => {
@@ -100,6 +102,7 @@ class App extends React.Component {
     } = entry;
     return (
       <tr
+        key={`entry-${index}`}
         className={classNames('entry', this.state.selectedChat === index && 'selected')}
         onClick={() => {
           this.selectChat(index)
@@ -141,12 +144,8 @@ class App extends React.Component {
   render() {
     const {
       chats,
-      chatsData,
       isLoading,
-      currentIndex,
-      error,
       isMobile,
-      loadMoreChats
     } = this.props;
     const {
       isListExpanded,
@@ -171,7 +170,10 @@ class App extends React.Component {
         {isLoading
           ? <Loader />
           : [
-            <div className={classNames('chats-table', isListExpanded && 'expanded')}>
+            <div
+              key='chats-table'
+              className={classNames('chats-table', isListExpanded && 'expanded')}
+            >
               <Table
                 headers={['Name', ...categories]}
                 entries={chats}
@@ -180,12 +182,16 @@ class App extends React.Component {
               />
             </div>,
             <div
+              key='expand-button'
               className={classNames('expand-button', !isListExpanded && 'reverse')}
               onClick={this.toggleList}
             >
               {this.getCaret()}
             </div>,
-            <div className='chats-map'>
+            <div
+              className='chats-map'
+              key='chats-map'
+            >
               <Map
                 onClickMarker={this.selectChat}
                 center={mapCenter}

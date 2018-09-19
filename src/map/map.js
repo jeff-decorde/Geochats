@@ -50,6 +50,7 @@ const DefaultMap = withScriptjs(withGoogleMap((props) => (
   >
     {props.markers.map((marker, index) => [
       <Marker
+        key={`marker-${index}`}
         icon={{
           url: marker.icon,
           scaledSize: new google.maps.Size(30, 30)

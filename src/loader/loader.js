@@ -3,7 +3,7 @@ import './loader.css';
 
 const Loader = () => (
   <div className='spinner'>
-    <i className="fa fa-circle-o-notch fa-spin" style={{ fontSize : 24 }} />
+    <i className="fa fa-circle-o-notch fa-spin" />
   </div>
 );
 
