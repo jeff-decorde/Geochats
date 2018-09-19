@@ -5,6 +5,7 @@ import Loader from '../loader/loader.js';
 import Icon from '../icon/icon.js';
 import classNames from 'classnames';
 import Map from '../map/map.js';
+import { CATEGORIES } from '../constants.js';
 import './app.css';
 
 class App extends React.Component {
@@ -59,7 +60,6 @@ class App extends React.Component {
         <td
           className='entry-cell'
           onClick={(e) => {
-            e.preventDefault();
             this.selectChat(index);
           }}
         >
@@ -76,7 +76,6 @@ class App extends React.Component {
               className='button-cell'
               onClick={(e) => {
                 this.toggleList();
-                this.selectChat(index);
               }}
             >
               <Icon icon='map-marker' />
@@ -122,9 +121,9 @@ class App extends React.Component {
           <div className='entry-name'>{name}</div>
         </td>
         {this.state.isListExpanded && [
-          <td className='entry-cell'>{radius}</td>,
-          <td className='entry-cell'>{maxRadius}</td>,
-          <td className='entry-cell'>{`${coord[0].latitude}, ${coord[0].longitude}`}</td>
+          <td key={`entry-radius-${index}`} className='entry-cell'>{radius}</td>,
+          <td key={`entry-max-radius-${index}`} className='entry-cell'>{maxRadius}</td>,
+          <td key={`entry-coords-${index}`} className='entry-cell'>{`${coord[0].latitude}, ${coord[0].longitude}`}</td>
         ]}
       </tr>
     );
@@ -141,28 +140,31 @@ class App extends React.Component {
     }));
   }
 
+  getMapCenter = () => {
+    const { selectedChat } = this.state;
+    const { chats } = this.props;
+    const selectedMarker = chats[selectedChat];
+    return selectedChat === null
+      ? null
+      : {
+        lat: selectedMarker.coord[0].latitude,
+        lng: selectedMarker.coord[0].longitude
+      };
+  }
+
+  getCategories = () => {
+    return this.state.isListExpanded
+      ? CATEGORIES
+      : [];
+  }
+
   render() {
     const {
       chats,
       isLoading,
       isMobile,
     } = this.props;
-    const {
-      isListExpanded,
-      selectedChat
-    } = this.state;
-
-    const categories = isListExpanded
-      ? ['Radius', 'Maximum Radius', 'Coordinates']
-      : [];
-
-    const selectedMarker = chats[selectedChat];
-    const mapCenter = selectedChat
-      ? {
-        lat: selectedMarker.coord[0].latitude,
-        lng: selectedMarker.coord[0].longitude
-      }
-      : null;
+    const { isListExpanded } = this.state;
 
     return (
       <div className="App">
@@ -175,9 +177,9 @@ class App extends React.Component {
               className={classNames('chats-table', isListExpanded && 'expanded')}
             >
               <Table
-                headers={['Name', ...categories]}
+                headers={['Name', ...this.getCategories()]}
                 entries={chats}
-                renderMobileEntry={this.renderMobileEntry}
+                isMobile={isMobile ? true : !isListExpanded}
                 renderEntry={isMobile ? this.renderMobileEntry : this.renderEntry}
               />
             </div>,
@@ -194,7 +196,7 @@ class App extends React.Component {
             >
               <Map
                 onClickMarker={this.selectChat}
-                center={mapCenter}
+                center={this.getMapCenter()}
                 markers={this.mapChatsToMarkers()}
               />
             </div>

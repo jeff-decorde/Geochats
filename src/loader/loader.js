@@ -7,4 +7,5 @@ const Loader = () => (
   </div>
 );
 
+Loader.displayName = 'Loader';
 export default Loader;

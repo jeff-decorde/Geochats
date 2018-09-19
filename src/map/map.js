@@ -1,89 +1,68 @@
 /* global google */
 
 import React from 'react'
+import LocationInfoWindow from './info-window.js';
 import {
   GoogleMap,
   Marker,
   Circle,
   withScriptjs,
   withGoogleMap,
-  InfoWindow
 } from "react-google-maps"
 
-const LocationInfoWindow = (props) => {
-  const {
-    data: {
-      name,
-      radius,
-      maxRadius,
-      coord
-    }
-  } = props.marker;
-  return (
-    <InfoWindow>
-      <div>
-        <div>
-          <b>Name : </b>
-          <span>{name}</span>
-        </div>
-        <div>
-          <b>Radius : </b>
-          <span>{radius}</span>
-        </div>
-        <div>
-          <b>Maximum radius : </b>
-          <span>{maxRadius}</span>
-        </div>
-        <div>
-          <b>Coordinates : </b>
-          <span>{`${coord[0].latitude}, ${coord[0].longitude}`}</span>
-        </div>
-      </div>
-    </InfoWindow>
-  )
-}
-
-const DefaultMap = withScriptjs(withGoogleMap((props) => (
-  <GoogleMap
-    center={props.center || props.markers[0]}
-    defaultZoom={12}
-  >
-    {props.markers.map((marker, index) => [
-      <Marker
-        key={`marker-${index}`}
-        icon={{
-          url: marker.icon,
-          scaledSize: new google.maps.Size(30, 30)
-        }}
-        onClick={() => props.onClickMarker(index)}
-        position={{
+// I decided to export this function since I can't shallow the GoogleMap component in my tests
+// So, I chose to test the content of the map instead of the map itself
+// The center property is not tested though :/
+Marker.displayName = 'Marker';
+Circle.displayName = 'Circle';
+export const renderMarkers = (markers, onClickMarker) => {
+  return markers.map((marker, index) => [
+    <Marker
+      key={`marker-${index}`}
+      icon={{
+        url: marker.icon,
+        scaledSize: new google.maps.Size(30, 30)
+      }}
+      onClick={() => onClickMarker(index)}
+      position={{
+        lat: marker.lat,
+        lng: marker.lng
+      }}
+    >
+      {marker.isOpen && <LocationInfoWindow marker={marker} />}
+    </Marker>,
+    marker.isOpen && (
+      <Circle
+        defaultCenter={{
           lat: marker.lat,
           lng: marker.lng
         }}
-      >
-        {marker.isOpen && <LocationInfoWindow marker={marker} />}
-      </Marker>,
-      marker.isOpen && (
-        <Circle
-          defaultCenter={{
-            lat: marker.lat,
-            lng: marker.lng
-          }}
-          radius={marker.data.radius}
-        />
-      )
-    ])}
-  </GoogleMap>
-)));
+        radius={marker.data.radius}
+      />
+    )
+  ]);
+};
 
-const CustomMap = (props) => (
-  <DefaultMap
+const PureMap = ({ center, markers, onClickMarker }) => (
+  <GoogleMap
+    center={center || markers[0]}
+    defaultZoom={12}
+  >
+    {renderMarkers(markers, onClickMarker)}
+  </GoogleMap>
+);
+
+export const Map = (props) => {
+  const DefaultMap = withScriptjs(withGoogleMap(PureMap));
+  DefaultMap.displayName = 'DefaultMap'
+  return (<DefaultMap
     {...props}
     googleMapURL='https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBcqh31rQqO_GLm423hSusYITRqflNYoBQ'
     loadingElement={<div style={{ height: `100%` }} />}
     containerElement={<div style={{ height: `100%` }} />}
     mapElement={<div style={{ height: `100%` }} />}
-  />
-);
+  />);
+};
 
-export default CustomMap
+Map.displayName = 'Map';
+export default Map

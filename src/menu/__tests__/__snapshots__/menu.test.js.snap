@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[object Object] 1`] = `
+<nav
+  aria-label="main navigation"
+  className="navbar"
+>
+  <div
+    className="navbar-brand"
+  >
+    <a
+      className="navbar-item"
+      href="https://artechglobal.com.au/"
+    >
+      <img
+        alt="Geochats"
+        height="28"
+        src="https://artechglobal.com.au/wp-content/uploads/2018/05/ARtech-Logo.png"
+        width="112"
+      />
+    </a>
+  </div>
+</nav>
+`;

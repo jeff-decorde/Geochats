@@ -5,7 +5,7 @@ describe('Icon', () => {
   const wrapper = shallow(<Icon icon='right' />);
 
   it('should render properly', () => {
-    expect(toJson(wrapper)).toMatchSnapshot(wrapper);
+    expect(wrapper).toMatchSnapshot(wrapper);
   })
 
   it('should pass props correctly', () => {

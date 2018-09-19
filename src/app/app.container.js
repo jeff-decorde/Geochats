@@ -3,7 +3,7 @@ import { getChats } from '../thunks.js';
 import { loadMoreChats } from '../actions.js';
 import App from './app.js';
 
-const mapStateToProps = (state) => ({
+export const mapStateToProps = (state) => ({
   ...state.chats,
   isMobile: state.browser.is.mobile,
 });

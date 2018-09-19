@@ -5,15 +5,15 @@ import './table.css';
 import { loadMoreChats } from '../actions.js';
 import React from 'react';
 
-const Table = ({ headers, entries, renderEntry, isMobile, loadMoreChats, chatsData }) => (
+export const Table = ({ headers, entries, renderEntry, isMobile, loadMoreChats, chatsData }) => (
   <table className="table is-fullwidth is-bordered">
-    <thead>
+    {!isMobile && <thead>
       <tr>
-        {!isMobile && headers.map((header) =>
-          <th>{header}</th>
+        {headers.map((header, index) =>
+          <th key={`header-${index}`}>{header}</th>
         )}
       </tr>
-    </thead>
+    </thead>}
     <tbody>
       {entries.map((entry, index) => renderEntry(entry, index))}
       {chatsData.length !== entries.length && (
@@ -33,7 +33,6 @@ const Table = ({ headers, entries, renderEntry, isMobile, loadMoreChats, chatsDa
 )
 
 const mapDispatchToProps = (state) => ({
-  isMobile: state.browser.is.mobile,
   chatsData: state.chats.chatsData
 })
 

@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[object Object] 1`] = `
+<InfoWindow>
+  <div>
+    <div>
+      <b>
+        Name : 
+      </b>
+      <span>
+        name
+      </span>
+    </div>
+    <div>
+      <b>
+        Radius : 
+      </b>
+      <span>
+        1000
+      </span>
+    </div>
+    <div>
+      <b>
+        Maximum radius : 
+      </b>
+      <span>
+        10000
+      </span>
+    </div>
+    <div>
+      <b>
+        Coordinates : 
+      </b>
+      <span>
+        12345, 67890
+      </span>
+    </div>
+  </div>
+</InfoWindow>
+`;
