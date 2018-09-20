@@ -3,6 +3,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import React from 'react';
 
 // React 16 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
@@ -16,6 +17,16 @@ global.toJson = toJson;
 // Jest helper functions
 global.mockStore = configureMockStore([thunk]);
 global.fetch = require('jest-fetch-mock');
+global.setup = (initialProps, Component, propsOverride = {}) => {
+  const props = {
+    ...initialProps,
+    ...propsOverride,
+  };
+  return {
+    props,
+    wrapper: shallow(<Component {...props} />)
+  };
+};
 
 // Fail tests on any warning
 console.error = message => {

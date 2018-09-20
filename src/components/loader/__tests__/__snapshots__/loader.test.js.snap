@@ -5,7 +5,7 @@ exports[`[object Object] 1`] = `
   className="spinner"
 >
   <i
-    className="fa fa-circle-o-notch fa-spin"
+    className="fas fa-spinner fa-pulse"
   />
 </div>
 `;

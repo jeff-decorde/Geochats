@@ -1,6 +1,6 @@
 import React from 'react';
 import LocationInfoWindow from '../info-window.js';
-import markerMock from '../../mocks/marker.js';
+import markerMock from '../../../mocks/marker.js';
 
 describe('LocationInfoWindow', () => {
   const wrapper = shallow(

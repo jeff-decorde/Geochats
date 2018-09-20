@@ -1,6 +1,5 @@
 import React from 'React';
 import App from '../app.js';
-import { setup } from '../../helpers/test-helpers.js';
 import markerMock from '../../mocks/marker.js';
 import { CATEGORIES } from '../../constants.js';
 
@@ -14,7 +13,7 @@ const initialProps = {
 
 describe('App', () => {
   describe('Data not loaded', () => {
-    const { wrapper, props } = setup(initialProps, App);
+    const { wrapper, props } = setup(initialProps, App, { isMobile: true });
 
     it('should render properly', () => {
       expect(wrapper).toMatchSnapshot(wrapper);
@@ -28,6 +27,12 @@ describe('App', () => {
 
     it('should display the loader', () => {
       expect(wrapper.find('Loader').length).toEqual(1);
+    });
+
+    it('getDirection mobile', () => {
+      expect(wrapper.instance().getDirection()).toEqual('up');
+      wrapper.instance().toggleList();
+      expect(wrapper.instance().getDirection()).toEqual('down');
     });
   });
 
@@ -121,12 +126,18 @@ describe('App', () => {
       const expandButtonProps = wrapper.find('.expand-button').props();
       expect(expandButtonProps.className.includes('reverse')).toEqual(!wrapper.state().isListExpanded);
       expect(expandButtonProps.onClick).toEqual(wrapper.instance().toggleList);
-      expect(expandButtonProps.children).toEqual(wrapper.instance().getCaret());
+      expect(expandButtonProps.children.props.icon.includes(wrapper.instance().getDirection())).toEqual(true);
 
       const mapProps = wrapper.find('Map').props();
       expect(mapProps.onClickMarker).toEqual(wrapper.instance().selectChat);
       expect(mapProps.markers).toEqual(wrapper.instance().mapChatsToMarkers());
       expect(mapProps.center).toEqual(wrapper.instance().getMapCenter());
+    });
+
+    it('getDirection not mobile', () => {
+      expect(wrapper.instance().getDirection()).toEqual('left');
+      wrapper.instance().toggleList();
+      expect(wrapper.instance().getDirection()).toEqual('right');
     });
   });
 });

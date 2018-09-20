@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 import './table.css';
-import { loadMoreChats } from '../actions.js';
+import { loadMoreChats } from '../../actions.js';
 import React from 'react';
 
 type Props = {

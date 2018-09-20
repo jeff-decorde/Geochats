@@ -1,4 +1,4 @@
-import markerMock from '../../mocks/marker.js';
+import markerMock from '../../../mocks/marker.js';
 import { Map, renderMarkers } from '../map.js';
 import React from 'react';
 import {

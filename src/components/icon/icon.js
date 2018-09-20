@@ -11,4 +11,5 @@ type Props = {
 const Icon = ({ icon }: Props) =>
   <i className={classNames('icon', 'fa', 'fa-' + icon)} />
 
+Icon.displayName = 'Icon';
 export default Icon;

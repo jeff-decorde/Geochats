@@ -11,7 +11,7 @@ import {
   withGoogleMap,
 } from "react-google-maps";
 
-import type { MarkerT } from '../types.js';
+import type { MarkerT } from '../../types.js';
 
 type Props = {
   center: {

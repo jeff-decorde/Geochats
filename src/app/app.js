@@ -1,12 +1,12 @@
 // @flow
 
 import React from 'react';
-import Menu from '../menu/menu.js';
-import Table from '../table/table.js';
-import Loader from '../loader/loader.js';
-import Icon from '../icon/icon.js';
+import Menu from '../components/menu/menu.js';
+import Table from '../components/table/table.js';
+import Loader from '../components/loader/loader.js';
+import Icon from '../components/icon/icon.js';
 import classNames from 'classnames';
-import Map from '../map/map.js';
+import Map from '../components/map/map.js';
 import { CATEGORIES } from '../constants.js';
 import './app.css';
 
