@@ -1,6 +1,9 @@
-import { INITIAL_STATE, EVENTS } from './constants.js';
+// @flow
 
-const geochatsReducer = (state = INITIAL_STATE, action) => {
+import { INITIAL_STATE, EVENTS } from './constants.js';
+import type { ChatsState, ChatsAction } from './types.js';
+
+const geochatsReducer = (state: ChatsState = INITIAL_STATE, action: ChatsAction) => {
   switch(action.type) {
     case EVENTS.GET_CHATS_START:
       return {

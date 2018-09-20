@@ -1,3 +1,5 @@
+// @flow
+
 export const INITIAL_STATE = {
   isLoading: false,
   chatsData: [],

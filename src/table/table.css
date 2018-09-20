@@ -3,3 +3,7 @@
   max-height: 47px;
   overflow-y: hidden;
 }
+
+.entry:hover {
+  background-color: hsl(0, 0%, 98%); 
+}

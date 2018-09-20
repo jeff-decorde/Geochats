@@ -1,3 +1,4 @@
+// @flow
 /* global google */
 
 import React from 'react'
@@ -8,15 +9,27 @@ import {
   Circle,
   withScriptjs,
   withGoogleMap,
-} from "react-google-maps"
+} from "react-google-maps";
+
+import type { MarkerT } from '../types.js';
+
+type Props = {
+  center: {
+    lat: number,
+    lng: number
+  },
+  markers: Array<MarkerT>,
+  onClickMarker: (number) => void,
+};
 
 // I decided to export this function since I can't shallow the GoogleMap component in my tests
 // So, I chose to test the content of the map instead of the map itself
 // The center property is not tested though :/
 Marker.displayName = 'Marker';
 Circle.displayName = 'Circle';
-export const renderMarkers = (markers, onClickMarker) => {
-  return markers.map((marker, index) => [
+
+export const renderMarkers = (markers: Array<MarkerT>, onClickMarker: (number) => void): Array<React.Node> =>
+  markers.map((marker: MarkerT, index: number) => [
     <Marker
       key={`marker-${index}`}
       icon={{
@@ -33,6 +46,7 @@ export const renderMarkers = (markers, onClickMarker) => {
     </Marker>,
     marker.isOpen && (
       <Circle
+        key={`circle-${index}`}
         defaultCenter={{
           lat: marker.lat,
           lng: marker.lng
@@ -41,9 +55,8 @@ export const renderMarkers = (markers, onClickMarker) => {
       />
     )
   ]);
-};
 
-const PureMap = ({ center, markers, onClickMarker }) => (
+const PureMap = ({ center, markers, onClickMarker }: Props) => (
   <GoogleMap
     center={center || markers[0]}
     defaultZoom={12}
@@ -52,7 +65,7 @@ const PureMap = ({ center, markers, onClickMarker }) => (
   </GoogleMap>
 );
 
-export const Map = (props) => {
+export const Map = (props: Props) => {
   const DefaultMap = withScriptjs(withGoogleMap(PureMap));
   DefaultMap.displayName = 'DefaultMap'
   return (<DefaultMap

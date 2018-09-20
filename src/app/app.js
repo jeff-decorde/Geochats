@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import Menu from '../menu/menu.js';
 import Table from '../table/table.js';
@@ -8,8 +10,22 @@ import Map from '../map/map.js';
 import { CATEGORIES } from '../constants.js';
 import './app.css';
 
-class App extends React.Component {
-  constructor(props) {
+import type { Chat } from '../types.js'
+
+type Props = {
+  getChats: () => void,
+  chats: Array<Chat>,
+  isMobile: boolean,
+  isLoading: boolean,
+}
+
+type State = {
+  selectedChat: ?number,
+  isListExpanded: boolean
+}
+
+class App extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       selectedChat: null,
@@ -27,24 +43,22 @@ class App extends React.Component {
     });
   }
 
-  selectChat = (index) => {
+  selectChat = (index: ?number) => {
     this.setState({
       selectedChat: index
     });
   }
 
-  getCaret = () => {
+  getDirection = () => {
     const { isListExpanded } = this.state;
-    let direction;
     if (this.props.isMobile) {
-      direction =  isListExpanded ? 'up' : 'down';
+      return isListExpanded ? 'up' : 'down';
     } else {
-      direction = isListExpanded ? 'left' : 'right';
+      return isListExpanded ? 'left' : 'right';
     }
-    return <Icon icon={`caret-${direction}`} />
   }
 
-  renderMobileEntry = (entry, index) => {
+  renderMobileEntry = (entry: Chat, index: number) => {
     const {
       name,
       thumbnailUrl,
@@ -91,7 +105,7 @@ class App extends React.Component {
     );
   }
 
-  renderEntry = (entry, index) => {
+  renderEntry = (entry: Chat, index: number) => {
     const {
       name,
       thumbnailUrl,
@@ -131,7 +145,7 @@ class App extends React.Component {
 
   mapChatsToMarkers = () => {
     const { chats } = this.props;
-    return chats.map((chat, index) => ({
+    return chats.map((chat: Chat, index: number) => ({
       lat: chat.coord[0].latitude,
       lng: chat.coord[0].longitude,
       icon: chat.thumbnailUrl,
@@ -188,7 +202,7 @@ class App extends React.Component {
               className={classNames('expand-button', !isListExpanded && 'reverse')}
               onClick={this.toggleList}
             >
-              {this.getCaret()}
+              <Icon icon={`caret-${this.getDirection()}`} />
             </div>,
             <div
               className='chats-map'

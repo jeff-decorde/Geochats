@@ -76,7 +76,7 @@
 }
 
 .button-cell:hover {
-  background-color: linear-gradient(to bottom right, #8f29ba, #5c66c9);
+  background: linear-gradient(to right bottom, #8f29ba, #5c66c9);
 }
 
 .entry-information {

@@ -1,9 +1,11 @@
+// @flow
+
 import React from 'react';
 import './loader.css';
 
 const Loader = () => (
   <div className='spinner'>
-    <i className="fa fa-circle-o-notch fa-spin" />
+    <i className="fas fa-spinner fa-pulse" />
   </div>
 );
 

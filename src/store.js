@@ -1,3 +1,5 @@
+// @flow
+
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { createResponsiveStateReducer, responsiveStoreEnhancer } from 'redux-responsive';
 import thunk from 'redux-thunk';

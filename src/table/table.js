@@ -5,7 +5,16 @@ import './table.css';
 import { loadMoreChats } from '../actions.js';
 import React from 'react';
 
-export const Table = ({ headers, entries, renderEntry, isMobile, loadMoreChats, chatsData }) => (
+type Props = {
+  headers: Array<string>,
+  entries: Array<Object>,
+  renderEntry: (Object, number) => Array<React$Element<*>>,
+  isMobile: boolean,
+  loadMoreChats: () => void,
+  chatsData: Array<Object>,
+}
+
+export const Table = ({ headers, entries, renderEntry, isMobile, loadMoreChats, chatsData }: Props) => (
   <table className="table is-fullwidth is-bordered">
     {!isMobile && <thead>
       <tr>
@@ -15,7 +24,7 @@ export const Table = ({ headers, entries, renderEntry, isMobile, loadMoreChats, 
       </tr>
     </thead>}
     <tbody>
-      {entries.map((entry, index) => renderEntry(entry, index))}
+      {entries.map(renderEntry)}
       {chatsData.length !== entries.length && (
         <tr>
           <td colSpan='4'>

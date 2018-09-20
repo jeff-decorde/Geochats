@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -11,5 +13,8 @@ const App = (
   </Provider>
 );
 
-ReactDOM.render(App, document.getElementById('root'));
-registerServiceWorker();
+const root = document.getElementById('root');
+if (root) {
+  ReactDOM.render(App, root);
+  registerServiceWorker();
+}
